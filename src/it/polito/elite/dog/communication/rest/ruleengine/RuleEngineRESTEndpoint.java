@@ -23,6 +23,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.atomic.AtomicReference;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.Path;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
@@ -140,13 +141,15 @@ public class RuleEngineRESTEndpoint implements RuleEngineRESTApi
 	 * 
 	 * @see
 	 * it.polito.elite.dog.communication.rest.ruleengine.api.RuleEngineRESTApi
-	 * #getDRLRules()
+	 * #getDRLRules(HttpServletResponse httpResponse)
 	 */
 	@Override
-	public String getDRLRules()
+	public String getDRLRules(HttpServletResponse httpResponse)
 	{
 		// no rules at the beginning
 		String drlRules = "";
+		
+		this.setCORSSupport(httpResponse);
 		
 		// extract the rule from the rule engine in the DRL format
 		if (this.ruleEngine != null)
@@ -164,11 +167,11 @@ public class RuleEngineRESTEndpoint implements RuleEngineRESTApi
 	 * #getXMLRules()
 	 */
 	@Override
-	public String getXMLRules()
+	public String getXMLRules(HttpServletResponse httpResponse)
 	{
 		// no rules at the beginning
 		String xmlRules = "";
-		
+		this.setCORSSupport(httpResponse);
 		// extract the rule from the rule engine in the JAXB format
 		if (this.ruleEngine != null)
 		{
@@ -187,8 +190,9 @@ public class RuleEngineRESTEndpoint implements RuleEngineRESTApi
 	 * #addRulesXML(it.polito.elite.dog.addons.rules.schemalibrary.RuleList)
 	 */
 	@Override
-	public void addRulesXML(String xmlRules)
+	public void addRulesXML(String xmlRules, HttpServletResponse httpResponse)
 	{
+		this.setCORSSupport(httpResponse);
 		// check not null
 		if (this.ruleEngine != null && this.unmarshaller != null)
 		{
@@ -221,8 +225,9 @@ public class RuleEngineRESTEndpoint implements RuleEngineRESTApi
 	}
 	
 	@Override
-	public void updateRuleXML(String ruleId, String ruleContent)
+	public void updateRuleXML(String ruleId, String ruleContent, HttpServletResponse httpResponse)
 	{
+		this.setCORSSupport(httpResponse);
 		// check not null
 		if (this.ruleEngine != null && this.unmarshaller != null)
 		{
@@ -253,8 +258,9 @@ public class RuleEngineRESTEndpoint implements RuleEngineRESTApi
 	 * #removeRule(java.lang.String)
 	 */
 	@Override
-	public void removeRule(String ruleId)
+	public void removeRule(String ruleId, HttpServletResponse httpResponse)
 	{
+		this.setCORSSupport(httpResponse);
 		// check not null
 		if (this.ruleEngine != null)
 		{
@@ -293,4 +299,8 @@ public class RuleEngineRESTEndpoint implements RuleEngineRESTApi
 		return rulesXML;
 	}
 	
+	private void setCORSSupport(HttpServletResponse response)
+	{
+		response.addHeader("Access-Control-Allow-Origin", "*");
+	}
 }

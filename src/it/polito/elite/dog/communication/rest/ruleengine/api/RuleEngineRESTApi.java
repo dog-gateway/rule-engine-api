@@ -17,6 +17,7 @@
  */
 package it.polito.elite.dog.communication.rest.ruleengine.api;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -25,6 +26,7 @@ import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 /**
  * @author <a href="mailto:dario.bonino@polito.it">Dario Bonino</a>
@@ -37,22 +39,22 @@ public interface RuleEngineRESTApi
 {
 	@GET
 	@Produces({MediaType.TEXT_PLAIN})
-	public String getDRLRules();
+	public String getDRLRules(@Context HttpServletResponse httpResponse);
 	
 	@GET
 	@Produces({ MediaType.APPLICATION_XML })
-	public String getXMLRules();
+	public String getXMLRules(@Context HttpServletResponse httpResponse);
 	
 	@POST
 	@Consumes({ MediaType.APPLICATION_XML })
-	public void addRulesXML(String xmlRules);
+	public void addRulesXML(String xmlRules, @Context HttpServletResponse httpResponse);
 	
 	@PUT
 	@Path("/{ruleId}")
 	@Consumes({ MediaType.APPLICATION_XML })
-	public void updateRuleXML(@PathParam("ruleId") String ruleId, String ruleContent);
+	public void updateRuleXML(@PathParam("ruleId") String ruleId, String ruleContent, @Context HttpServletResponse httpResponse);
 	
 	@DELETE
 	@Path("/{ruleId}")
-	public void removeRule(@PathParam("ruleId") String ruleId);
+	public void removeRule(@PathParam("ruleId") String ruleId, @Context HttpServletResponse httpResponse);
 }
