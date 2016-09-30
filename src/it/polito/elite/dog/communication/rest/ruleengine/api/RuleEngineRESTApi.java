@@ -28,6 +28,7 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 /**
  * @author <a href="mailto:dario.bonino@polito.it">Dario Bonino</a>
  * @author <a href="mailto:luigi.derussis@polito.it">Luigi De Russis</a>
@@ -47,12 +48,12 @@ public interface RuleEngineRESTApi
 	
 	@POST
 	@Consumes({ MediaType.APPLICATION_XML })
-	public void addRulesXML(String xmlRules, @Context HttpServletResponse httpResponse);
+	public Response addRulesXML(String xmlRules, @Context HttpServletResponse httpResponse);
 	
 	@PUT
 	@Path("/{ruleId}")
 	@Consumes({ MediaType.APPLICATION_XML })
-	public void updateRuleXML(@PathParam("ruleId") String ruleId, String ruleContent, @Context HttpServletResponse httpResponse);
+	public Response updateRuleXML(@PathParam("ruleId") String ruleId, String ruleContent, @Context HttpServletResponse httpResponse);
 	
 	@DELETE
 	@Path("/{ruleId}")
